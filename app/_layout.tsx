@@ -10,8 +10,10 @@ export default function Layout() {
       <Tabs
         screenOptions={({ route }) => ({
           headerShown: false,
+          tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => {
             const icons: Record<string, keyof typeof Feather.glyphMap> = {
+              index: 'home',
               book: 'book',
               user: 'user',
             }

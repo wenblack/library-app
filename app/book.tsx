@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, Button, TextInput, View } from 'react-native'
+import { Alert, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useBookDatabase } from './database/useBookDatabase'
 
@@ -22,26 +22,40 @@ export default function BookForm() {
 
   return (
     <SafeAreaView style={{
-      padding: 20,
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
     }}>
       <View style={{ width: '80%' }}>
-        <TextInput
-          placeholder="Título"
-          value={title}
-          onChangeText={setTitle}
-          style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        />
-        <TextInput
-          placeholder="Autor"
-          value={author}
-          onChangeText={setAuthor}
-          style={{ borderWidth: 1, marginBottom: 10, padding: 8 }}
-        />
-        <Button title="Salvar" onPress={handleSave} />
+        <KeyboardAvoidingView behavior="padding" style={{ width: '100%' }}>
+          <Text style={{ fontSize: 22, paddingBottom: 32, fontWeight: '600' }}>Cadastrar um Livro</Text>
+          <TextInput
+            placeholder="Título"
+            placeholderTextColor={'#999'}
+            value={title}
+            onChangeText={setTitle}
+            style={{ borderWidth: 1, marginBottom: 12, padding: 8 }}
+          />
+          <TextInput
+            placeholder="Autor"
+            placeholderTextColor={'#999'}
+            value={author}
+            onChangeText={setAuthor}
+            style={{ borderWidth: 1, marginBottom: 12, padding: 8 }}
+          />
+        </KeyboardAvoidingView>
+        <TouchableOpacity onPress={handleSave}
+          style={{
+            backgroundColor: 'black',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 12,
+            borderRadius: 8,
+            marginTop: 32
+          }}>
+          <Text style={{ color: 'white' }}>Salvar</Text>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }

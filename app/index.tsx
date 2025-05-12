@@ -1,0 +1,85 @@
+import { useEffect, useState } from 'react'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Book, useBookDatabase } from './database/useBookDatabase'
+
+export default function Home() {
+  const { searchByTitle } = useBookDatabase()
+  const [books, setBooks] = useState<Book[]>([])
+  const [filter, setFilter] = useState<'all' | 'available' | 'in_use'>('all')
+
+  useEffect(() => {
+    async function loadBooks() {
+      try {
+        const data = await searchByTitle('')
+        const filtered = filter === 'all'
+          ? data
+          : data.filter((book) =>
+            filter === 'available' ? book.status === 'available' : book.status !== 'available'
+          )
+
+        setBooks(filtered)
+      } catch (error) {
+        console.error('Erro ao buscar livros:', error)
+      }
+    }
+
+    loadBooks()
+  }, [filter])
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Livros Cadastrados</Text>
+
+      <View style={styles.filterContainer}>
+        <TouchableOpacity onPress={() => setFilter('all')} style={filter === 'all' ? styles.selected : styles.filter}>
+          <Text>Todos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setFilter('available')} style={filter === 'available' ? styles.selected : styles.filter}>
+          <Text>Disponíveis</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setFilter('in_use')} style={filter === 'in_use' ? styles.selected : styles.filter}>
+          <Text>Em uso</Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={books}
+        keyExtractor={(item) => item.id?.toString() || ''}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.name}>{item.title}</Text>
+            <Text style={styles.sub}>Autor: {item.author}</Text>
+            <Text style={{ color: item.status === 'available' ? 'green' : 'red' }}>
+              Status: {item.status === 'available' ? 'Disponível' : 'Em uso'}
+            </Text>
+          </View>
+        )}
+      />
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 20 },
+  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 10 },
+  item: { padding: 12, borderBottomWidth: 1, borderColor: '#ccc' },
+  name: { fontSize: 16, fontWeight: '600' },
+  sub: { color: '#666' },
+  filterContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 16,
+    justifyContent: 'space-around',
+  },
+  filter: {
+    backgroundColor: '#eee',
+    padding: 6,
+    borderRadius: 8,
+  },
+  selected: {
+    backgroundColor: '#007bff',
+    padding: 6,
+    borderRadius: 8,
+  },
+})
