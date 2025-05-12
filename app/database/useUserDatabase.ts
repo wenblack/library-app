@@ -1,28 +1,27 @@
 import { useSQLiteContext } from "expo-sqlite"
 
-export type ProductDatabase = {
-  id: number
+export type User = {
+  id?: number
   name: string
-  quantity: number
+  email: string
 }
 
-export function useProductDatabase() {
+export function useUserDatabase() {
   const database = useSQLiteContext()
 
-  async function create(data: Omit<ProductDatabase, "id">) {
+  async function create(data: Omit<User, "id">) {
     const statement = await database.prepareAsync(
-      "INSERT INTO products (name, quantity) VALUES ($name, $quantity)"
+      "INSERT INTO users (name, email) VALUES ($name, $email)"
     )
 
     try {
       const result = await statement.executeAsync({
         $name: data.name,
-        $quantity: data.quantity,
+        $email: data.email,
       })
 
-      const insertedRowId = result.lastInsertRowId.toLocaleString()
 
-      return { insertedRowId }
+      return { $name: data.name, $email: data.email }
     } catch (error) {
       throw error
     } finally {
@@ -32,9 +31,9 @@ export function useProductDatabase() {
 
   async function searchByName(name: string) {
     try {
-      const query = "SELECT * FROM products WHERE name LIKE ?"
+      const query = "SELECT * FROM users WHERE name LIKE ?"
 
-      const response = await database.getAllAsync<ProductDatabase>(
+      const response = await database.getAllAsync<User>(
         query,
         `%${name}%`
       )
@@ -45,16 +44,16 @@ export function useProductDatabase() {
     }
   }
 
-  async function update(data: ProductDatabase) {
+  async function update(data: User) {
     const statement = await database.prepareAsync(
-      "UPDATE products SET name = $name, quantity = $quantity WHERE id = $id"
+      "UPDATE users SET name = $name, email = $email WHERE id = $id"
     )
 
     try {
       await statement.executeAsync({
-        $id: data.id,
+        $id: Number(data.id),
         $name: data.name,
-        $quantity: data.quantity,
+        $email: data.email,
       })
     } catch (error) {
       throw error
@@ -65,7 +64,7 @@ export function useProductDatabase() {
 
   async function remove(id: number) {
     try {
-      await database.execAsync("DELETE FROM products WHERE id = " + id)
+      await database.execAsync("DELETE FROM users WHERE id = " + id)
     } catch (error) {
       throw error
     }
@@ -73,9 +72,9 @@ export function useProductDatabase() {
 
   async function show(id: number) {
     try {
-      const query = "SELECT * FROM products WHERE id = ?"
+      const query = "SELECT * FROM users WHERE id = ?"
 
-      const response = await database.getFirstAsync<ProductDatabase>(query, [
+      const response = await database.getFirstAsync<User>(query, [
         id,
       ])
 
