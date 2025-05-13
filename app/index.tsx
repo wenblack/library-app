@@ -1,17 +1,31 @@
+import { Ionicons } from '@expo/vector-icons'
+import { router } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Book, useBookDatabase } from './database/useBookDatabase'
+import { BookWithUser, useBookDatabase } from './database/useBookDatabase'
 
 export default function Home() {
-  const { searchByTitle } = useBookDatabase()
-  const [books, setBooks] = useState<Book[]>([])
+  const { listWithUser, searchByTitle } = useBookDatabase()
+  const [searchTerm, setSearchTerm] = useState('')
+  const [books, setBooks,] = useState<BookWithUser[]>([])
   const [filter, setFilter] = useState<'all' | 'available' | 'in_use'>('all')
+
+  const handleSearch = async () => {
+    if (searchTerm.trim() === '') {
+      const allBooks = await listWithUser()
+      setBooks(allBooks)
+      return
+    }
+
+    const results = await searchByTitle(searchTerm)
+    setBooks(results)
+  }
 
   useEffect(() => {
     async function loadBooks() {
       try {
-        const data = await searchByTitle('')
+        const data = await listWithUser()
         const filtered = filter === 'all'
           ? data
           : data.filter((book) =>
@@ -30,6 +44,28 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Livros Cadastrados</Text>
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 6,
+        paddingHorizontal: 8,
+        marginBottom: 10
+      }}>
+        <TextInput
+          placeholder="Buscar livro"
+          placeholderTextColor={'#999'}
+          value={searchTerm}
+          onChangeText={setSearchTerm}
+          style={{ flex: 1, paddingVertical: 8 }}
+          onSubmitEditing={handleSearch}
+        />
+        <TouchableOpacity onPress={handleSearch}>
+          <Ionicons name="search" size={20} color="gray" />
+        </TouchableOpacity>
+      </View>
+
 
       <View style={styles.filterContainer}>
         <TouchableOpacity onPress={() => setFilter('all')} style={filter === 'all' ? styles.selected : styles.filter}>
@@ -47,13 +83,21 @@ export default function Home() {
         data={books}
         keyExtractor={(item) => item.id?.toString() || ''}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.name}>{item.title}</Text>
-            <Text style={styles.sub}>Autor: {item.author}</Text>
-            <Text style={{ color: item.status === 'available' ? 'green' : 'red' }}>
-              Status: {item.status === 'available' ? 'Disponível' : 'Em uso'}
-            </Text>
-          </View>
+          <TouchableOpacity onPress={() => router.push(`/details/${item.id}`)}>
+            <View style={styles.item}>
+              <Text style={styles.name}>{item.title}</Text>
+              <Text style={styles.sub}>Autor: {item.author}</Text>
+              <Text style={{ color: item.status === 'available' ? 'green' : 'red' }}>
+                Status: {item.status === 'available' ? 'Disponível' : 'Em uso'}
+              </Text>
+              {item.user_name && (
+                <Text style={{ fontStyle: 'italic' }}>
+                  Reservado por: {item.user_name}
+                </Text>
+              )}
+            </View>
+          </TouchableOpacity>
+
         )}
       />
     </SafeAreaView>

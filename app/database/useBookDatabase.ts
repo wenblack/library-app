@@ -7,10 +7,27 @@ export type Book = {
   status: 'available'
   user_id?: number | null
 }
+export enum BookStatus {
+  AVAILABLE = 'available',
+  IN_USE = 'in use',
+}
+export type BookWithUser = Book & { user_name?: string }
 
 export function useBookDatabase() {
   const database = useSQLiteContext()
-
+  async function listWithUser(): Promise<BookWithUser[]> {
+    const query = `
+      SELECT books.*, users.name AS user_name
+      FROM books
+      LEFT JOIN users ON users.id = books.user_id
+    `
+    try {
+      const response = await database.getAllAsync<BookWithUser>(query)
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
   async function create(data: Omit<Book, "id" | "user_id" | "status">) {
     const statement = await database.prepareAsync(
       "INSERT INTO books (title, author, status) VALUES ($title, $author, 'available')"
@@ -86,6 +103,23 @@ export function useBookDatabase() {
       throw error
     }
   }
+  async function updateBookStatus(id: number, status: 'available' | 'in_use', userId?: number | null) {
+    const statement = await database.prepareAsync(
+      "UPDATE books SET status = $status, user_id = $user_id WHERE id = $id"
+    )
 
-  return { create, searchByTitle, updateBook, remove, show }
+    try {
+      await statement.executeAsync({
+        $id: id,
+        $status: status,
+        $user_id: userId ?? null,
+      })
+    } catch (error) {
+      throw error
+    } finally {
+      await statement.finalizeAsync()
+    }
+  }
+
+  return { create, searchByTitle, updateBook, listWithUser, remove, show, updateBookStatus }
 }

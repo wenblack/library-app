@@ -84,5 +84,17 @@ export function useUserDatabase() {
     }
   }
 
-  return { create, searchByName, update, remove, show }
+  async function list() {
+    try {
+      const query = "SELECT * FROM users ORDER BY name"
+
+      const response = await database.getAllAsync<User>(query, [])
+
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
+
+  return { create, searchByName, update, remove, show, list }
 }
