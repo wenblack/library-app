@@ -1,24 +1,24 @@
 // app/_layout.tsx ou dentro da sua tela principal
 
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter, useSegments } from "expo-router";
-import { Box, HStack, Icon, Pressable, Text } from "native-base";
+import { Ionicons } from "@expo/vector-icons"
+import { useRouter, useSegments } from "expo-router"
+import { Box, HStack, Icon, Pressable, Text } from "native-base"
 
 export function NavBar() {
-  const router = useRouter();
-  const segments = useSegments();
+  const router = useRouter()
+  const segments = useSegments()
 
-  const activeSegment = segments[segments.length - 1];
+  const activeSegment = segments[segments.length - 1]
 
   const tabs = [
     { name: "Livros", route: "/", icon: "book" },
     { name: "Cadastrar Livro", route: "book", icon: "add-circle" },
     { name: "Cadastrar Usuário", route: "user", icon: "person-add" },
-  ];
+  ]
 
   return (
-    <Box safeAreaBottom shadow={2}>
-      <HStack justifyContent="space-around">
+    <Box py={4} borderTopWidth={'1'} borderColor={"gray.200"} width={'100%'}>
+      <HStack >
         {tabs.map((tab) => (
           <Pressable
             key={tab.route}
@@ -51,5 +51,5 @@ export function NavBar() {
         ))}
       </HStack>
     </Box>
-  );
+  )
 }
