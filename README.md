@@ -1,50 +1,70 @@
-# Welcome to your Expo app 👋
+# 📚 Library App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+![GitHub repo size](https://img.shields.io/github/repo-size/wenblack/library-app)
+![GitHub last commit](https://img.shields.io/github/last-commit/wenblack/library-app)
+![GitHub issues](https://img.shields.io/github/issues/wenblack/library-app)
+![License](https://img.shields.io/github/license/wenblack/library-app)
 
-## Get started
+Aplicativo mobile para auxiliar bibliotecários no gerenciamento de livros e usuários, desenvolvido com **React Native (Expo)**, **TypeScript** e **SQLite**.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## ✨ Funcionalidades
 
-2. Start the app
+- ✅ Cadastro de livros e usuários
+- 📖 Listagem de livros com status (`Disponível` ou `Em uso`)
+- 🔄 Reserva de livro para um usuário
+- 🛠️ Tela de detalhes com edição e reserva
+- 🔍 Campo de busca por título
+- 🧭 Navegação inferior (Tab Navigation)
+- 🎨 Ícones com `expo-vector-icons`
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 📸 Demonstração
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+> _Adicione prints reais aqui se tiver_
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+<img src="assets/screenshots/home.png" width="250" /> <img src="assets/screenshots/book-details.png" width="250" />
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🛠️ Tecnologias
+
+- [Expo](https://expo.dev/)
+- [React Native](https://reactnative.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Expo Router](https://expo.github.io/router/)
+- [SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
+- [Native Base](https://nativebase.io/)
+- [expo-vector-icons](https://icons.expo.fyi/)
+
+---
+
+## 🚀 Como executar
 
 ```bash
-npm run reset-project
+# Clone o projeto
+git clone https://github.com/wenblack/library-app
+cd library-app
+
+# Instale as dependências
+npm install
+
+# Inicie o app
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📁 Estrutura
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+app/
+├── (tabs)/               # Navegação por abas
+├── index.tsx             # Página inicial com busca e listagem
+├── livro/[id].tsx        # Detalhes e reserva
+├── livros/novo.tsx       # Cadastro de livros
+├── usuarios/novo.tsx     # Cadastro de usuários
+database/
+├── index.ts              # Inicialização do banco
+├── hooks/                # Lógica SQLite (livros e usuários)
+```
