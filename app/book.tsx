@@ -1,7 +1,7 @@
 import { NavBar } from '@/components/NavBar'
-import { VStack } from 'native-base'
+import { Button, KeyboardAvoidingView, Text, VStack } from 'native-base'
 import { useState } from 'react'
-import { Alert, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, TextInput } from 'react-native'
 import { useBookDatabase } from './database/useBookDatabase'
 
 export default function BookForm() {
@@ -22,30 +22,36 @@ export default function BookForm() {
   }
 
   return (
-    <VStack safeAreaTop style={{
-      flex: 1,
-      justifyContent: 'space-between',
-    }}
+    <VStack
+      safeAreaTop
+      flex={1}
+      bg={'white'}
+      justifyContent={'space-between'}
     >
-      <View style={{ width: '80%', height: '80%', alignSelf: 'center', justifyContent: 'center' }}>
+      <VStack
+        w={"80%"}
+        h={'80%'}
+        alignSelf={'center'}
+        justifyContent={'center'}
+      >
         <KeyboardAvoidingView behavior="padding" style={{ width: '100%' }}>
-          <Text style={{ fontSize: 22, paddingBottom: 32, fontWeight: '600' }}>Cadastrar um Livro</Text>
+          <Text fontSize={'2xl'} pb={8} fontWeight={'semibold'} >Cadastrar um Livro</Text>
           <TextInput
             placeholder="Título"
             placeholderTextColor={'#999'}
             value={title}
             onChangeText={setTitle}
-            style={{ borderWidth: 1, marginBottom: 12, padding: 8 }}
+            style={{ borderWidth: 1, marginBottom: 12, padding: 8, paddingLeft: 12, borderRadius: 8, borderColor: '#999' }}
           />
           <TextInput
             placeholder="Autor"
             placeholderTextColor={'#999'}
             value={author}
             onChangeText={setAuthor}
-            style={{ borderWidth: 1, marginBottom: 12, padding: 8 }}
+            style={{ borderWidth: 1, marginBottom: 12, padding: 8, paddingLeft: 12, borderRadius: 8, borderColor: '#999' }}
           />
         </KeyboardAvoidingView>
-        <TouchableOpacity onPress={handleSave}
+        <Button onPress={handleSave}
           style={{
             backgroundColor: 'black',
             justifyContent: 'center',
@@ -55,8 +61,8 @@ export default function BookForm() {
             marginTop: 32
           }}>
           <Text style={{ color: 'white' }}>Salvar</Text>
-        </TouchableOpacity>
-      </View>
+        </Button>
+      </VStack>
       <NavBar />
     </VStack >
   )

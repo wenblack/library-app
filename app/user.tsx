@@ -1,5 +1,7 @@
+import { NavBar } from '@/components/NavBar'
+import { Button, KeyboardAvoidingView, Text, VStack } from 'native-base'
 import { useState } from 'react'
-import { Alert, KeyboardAvoidingView, SafeAreaView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, TextInput } from 'react-native'
 import { useUserDatabase } from './database/useUserDatabase'
 
 export default function UserForm() {
@@ -20,14 +22,19 @@ export default function UserForm() {
   }
 
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-
-    }}>
-      <View style={{ width: '80%' }}>
-        <Text style={{ fontSize: 22, paddingBottom: 32, fontWeight: '600' }}>Cadastrar novo Usuário</Text>
+    <VStack
+      safeAreaTop
+      flex={1}
+      bg={'white'}
+      justifyContent={'space-between'}
+    >
+      <VStack
+        w={"80%"}
+        h={'80%'}
+        alignSelf={'center'}
+        justifyContent={'center'}
+      >
+        <Text fontSize={'2xl'} pb={8} fontWeight={'semibold'}>Cadastrar novo Usuário</Text>
         <KeyboardAvoidingView behavior="padding" style={{ width: '100%' }}>
           <TextInput
             placeholder="Nome"
@@ -38,7 +45,9 @@ export default function UserForm() {
               borderWidth: 1,
               marginBottom: 12,
               padding: 8,
-              color: 'black',
+              paddingLeft: 12,
+              borderRadius: 8,
+              borderColor: '#999'
             }}
           />
           <TextInput
@@ -50,12 +59,14 @@ export default function UserForm() {
               borderWidth: 1,
               marginBottom: 12,
               padding: 8,
-              color: 'black'
+              paddingLeft: 12,
+              borderRadius: 8,
+              borderColor: '#999'
             }}
             keyboardType="email-address"
           />
         </KeyboardAvoidingView>
-        <TouchableOpacity onPress={handleSave}
+        <Button onPress={handleSave}
           style={{
             backgroundColor: 'black',
             justifyContent: 'center',
@@ -65,8 +76,9 @@ export default function UserForm() {
             marginTop: 32
           }}>
           <Text style={{ color: 'white' }}>Salvar</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView >
+        </Button>
+      </VStack>
+      <NavBar />
+    </VStack >
   )
 }
