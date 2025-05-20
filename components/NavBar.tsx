@@ -3,6 +3,7 @@
 import { Ionicons } from "@expo/vector-icons"
 import { useRouter, useSegments } from "expo-router"
 import { Box, HStack, Icon, Pressable, Text } from "native-base"
+import { Platform } from "react-native"
 
 export function NavBar() {
   const router = useRouter()
@@ -17,8 +18,8 @@ export function NavBar() {
   ]
 
   return (
-    <Box py={4} borderTopWidth={'1'} borderColor={"gray.200"} width={'100%'}>
-      <HStack >
+    <Box py={4} borderTopWidth={'1'} borderColor={"gray.200"} bg={"white"}  >
+      <HStack safeAreaBottom={Platform.OS === "android" ? 10 : 4}>
         {tabs.map((tab) => (
           <Pressable
             key={tab.route}
@@ -50,6 +51,6 @@ export function NavBar() {
           </Pressable>
         ))}
       </HStack>
-    </Box>
+    </Box >
   )
 }

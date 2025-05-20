@@ -1,17 +1,13 @@
 import { NavBar } from "@/components/NavBar"
 import { Ionicons } from "@expo/vector-icons"
 import { router } from "expo-router"
-import { VStack } from "native-base"
+import { Button, Divider, HStack, Text, VStack } from "native-base"
 import { useEffect, useState } from "react"
 import {
   FlatList,
-  StyleSheet,
-  Text,
   TextInput,
-  TouchableOpacity,
-  View,
+  TouchableOpacity
 } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
 import { BookWithUser, useBookDatabase } from "./database/useBookDatabase"
 
 export default function Home() {
@@ -54,63 +50,77 @@ export default function Home() {
   }, [filter])
 
   return (
-    <SafeAreaView style={styles.container}>
-      <VStack padding={8}>
-        <Text style={styles.title}>Livros Cadastrados</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 6,
-            paddingHorizontal: 8,
-            marginBottom: 10,
-          }}
-        >
+    <VStack style={{ flex: 1 }} bg={"white"} >
+      <VStack safeAreaTop px={4} space={2}>
+        <Text fontSize="2xl" fontWeight="bold" color={'gray.600'}>Livros Cadastrados</Text>
+        <HStack alignItems="center" borderWidth={1} borderColor={"gray.400"} borderRadius={16} pl={2} mb={2.5}  >
           <TextInput
             placeholder="Buscar livro"
             placeholderTextColor={"#999"}
             value={searchTerm}
             onChangeText={setSearchTerm}
-            style={{ flex: 1, paddingVertical: 8 }}
+            style={{ flex: 1, padding: 8, color: "#000" }}
             onSubmitEditing={handleSearch}
           />
-          <TouchableOpacity onPress={handleSearch}>
-            <Ionicons name="search" size={20} color="gray" />
-          </TouchableOpacity>
-        </View>
 
-        <View style={styles.filterContainer}>
-          <TouchableOpacity
+          <Button onPress={handleSearch} variant={"ghost"}>
+            <Ionicons name="search" size={20} color="gray" />
+          </Button>
+        </HStack>
+
+        <HStack justifyContent={"space-between"} alignItems={"center"} mb={2}>
+          <Button
             onPress={() => setFilter("all")}
-            style={filter === "all" ? styles.selected : styles.filter}
+            px={6}
+            rounded={"full"}
+            backgroundColor={filter === "all" ? "#007bff" : "#eee"}
           >
-            <Text>Todos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            <Text
+              color={filter === "all" ? "white" : "black"}
+              fontWeight={filter === "all" ? "bold" : "semibold"}
+            >
+              Todos
+            </Text>
+          </Button>
+          <Button
             onPress={() => setFilter("available")}
-            style={filter === "available" ? styles.selected : styles.filter}
+            px={6}
+            rounded={"full"}
+            backgroundColor={filter === "available" ? "#007bff" : "#eee"}
           >
-            <Text>Disponíveis</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            <Text
+              color={filter === "available" ? "white" : "green.800"}
+              fontWeight={filter === "available" ? "bold" : "semibold"}
+            >
+              Disponíveis
+            </Text>
+          </Button>
+          <Button
             onPress={() => setFilter("in_use")}
-            style={filter === "in_use" ? styles.selected : styles.filter}
+            px={6}
+            rounded={"full"}
+            backgroundColor={filter === "in_use" ? "#007bff" : "#eee"}
           >
-            <Text>Em uso</Text>
-          </TouchableOpacity>
-        </View>
+            <Text
+              color={filter === "in_use" ? "white" : "red.800"}
+              fontWeight={filter === "in_use" ? "bold" : "semibold"}
+            >
+              Em uso
+            </Text>
+          </Button>
+        </HStack>
       </VStack>
+      <Divider my={2} bg={"gray.300"} shadow={'1'} />
 
       <FlatList
         data={books}
+        style={{ paddingHorizontal: 16 }}
         keyExtractor={(item) => item.id?.toString() || ""}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => router.push(`/details/${item.id}`)}>
-            <View style={styles.item}>
-              <Text style={styles.name}>{item.title}</Text>
-              <Text style={styles.sub}>Autor: {item.author}</Text>
+            <VStack padding={4} borderBottomWidth={1} borderColor={"gray.300"}>
+              <Text textTransform={'capitalize'} fontSize={'md'} fontWeight={'semibold'}>{item.title}</Text>
+              <Text textTransform={'capitalize'} color={"#666"} fontWeight={'normal'}>Autor: {item.author}</Text>
               <Text
                 style={{ color: item.status === "available" ? "green" : "red" }}
               >
@@ -121,35 +131,12 @@ export default function Home() {
                   Reservado por: {item.user_name}
                 </Text>
               )}
-            </View>
+            </VStack>
           </TouchableOpacity>
         )}
       />
       <NavBar />
-    </SafeAreaView>
+    </VStack>
   )
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 10 },
-  item: { padding: 12, borderBottomWidth: 1, borderColor: "#ccc" },
-  name: { fontSize: 16, fontWeight: "600" },
-  sub: { color: "#666" },
-  filterContainer: {
-    flexDirection: "row",
-    gap: 12,
-    marginBottom: 16,
-    justifyContent: "space-around",
-  },
-  filter: {
-    backgroundColor: "#eee",
-    padding: 6,
-    borderRadius: 8,
-  },
-  selected: {
-    backgroundColor: "#007bff",
-    padding: 6,
-    borderRadius: 8,
-  },
-})
