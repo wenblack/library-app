@@ -60,8 +60,6 @@ export default function BookDetails() {
   }
 
 
-  //rif (!book) return <Text>Carregando...</Text>
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Detalhes do Livro</Text>

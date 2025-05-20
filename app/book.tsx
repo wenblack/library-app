@@ -1,7 +1,8 @@
+import { InputText } from '@/components/InputText'
 import { NavBar } from '@/components/NavBar'
 import { Button, KeyboardAvoidingView, Text, VStack } from 'native-base'
 import { useState } from 'react'
-import { Alert, TextInput } from 'react-native'
+import { Alert } from 'react-native'
 import { useBookDatabase } from './database/useBookDatabase'
 
 export default function BookForm() {
@@ -35,20 +36,17 @@ export default function BookForm() {
         justifyContent={'center'}
       >
         <KeyboardAvoidingView behavior="padding" style={{ width: '100%' }}>
-          <Text fontSize={'2xl'} pb={8} fontWeight={'semibold'} >Cadastrar um Livro</Text>
-          <TextInput
-            placeholder="Título"
-            placeholderTextColor={'#999'}
-            value={title}
+          <Text fontSize={'2xl'} pb={8} fontWeight={'semibold'} >Cadastrar Livro</Text>
+
+          <InputText
+            placeholder='Título'
             onChangeText={setTitle}
-            style={{ borderWidth: 1, marginBottom: 12, padding: 8, paddingLeft: 12, borderRadius: 8, borderColor: '#999' }}
+            value={title}
           />
-          <TextInput
-            placeholder="Autor"
-            placeholderTextColor={'#999'}
-            value={author}
+          <InputText
+            placeholder='Autor'
             onChangeText={setAuthor}
-            style={{ borderWidth: 1, marginBottom: 12, padding: 8, paddingLeft: 12, borderRadius: 8, borderColor: '#999' }}
+            value={author}
           />
         </KeyboardAvoidingView>
         <Button onPress={handleSave}
