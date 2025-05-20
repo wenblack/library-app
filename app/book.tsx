@@ -1,6 +1,7 @@
+import { NavBar } from '@/components/NavBar'
+import { VStack } from 'native-base'
 import { useState } from 'react'
 import { Alert, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { useBookDatabase } from './database/useBookDatabase'
 
 export default function BookForm() {
@@ -21,12 +22,12 @@ export default function BookForm() {
   }
 
   return (
-    <SafeAreaView style={{
+    <VStack safeAreaTop style={{
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
-      <View style={{ width: '80%' }}>
+      justifyContent: 'space-between',
+    }}
+    >
+      <View style={{ width: '80%', height: '80%', alignSelf: 'center', justifyContent: 'center' }}>
         <KeyboardAvoidingView behavior="padding" style={{ width: '100%' }}>
           <Text style={{ fontSize: 22, paddingBottom: 32, fontWeight: '600' }}>Cadastrar um Livro</Text>
           <TextInput
@@ -56,6 +57,7 @@ export default function BookForm() {
           <Text style={{ color: 'white' }}>Salvar</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView >
+      <NavBar />
+    </VStack >
   )
 }
