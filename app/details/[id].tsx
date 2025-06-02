@@ -1,7 +1,9 @@
+import { InputText } from '@/components/InputText'
 import { Picker } from '@react-native-picker/picker'
 import { useLocalSearchParams, useRouter } from 'expo-router'
+import { Button, HStack, VStack } from 'native-base'
 import { useEffect, useState } from 'react'
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Book, BookStatus, useBookDatabase } from '../database/useBookDatabase'
 import { User, useUserDatabase } from '../database/useUserDatabase'
@@ -10,7 +12,7 @@ export default function BookDetails() {
   const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<number | null>(null)
   const { id } = useLocalSearchParams<{ id: string }>()
-  const { show, updateBook, updateBookStatus } = useBookDatabase()
+  const { show, updateBook, updateBookStatus, remove } = useBookDatabase()
   const router = useRouter()
   const { list } = useUserDatabase()
 
@@ -59,28 +61,51 @@ export default function BookDetails() {
     }
   }
 
+  async function handleDelete() {
+    Alert.alert(
+      "Confirmar exclusão",
+      "Deseja realmente deletar este livro?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Deletar",
+          style: "destructive",
+          onPress: async () => {
+            await remove(Number(id))
+            router.replace("/") // volta para home
+          },
+        },
+      ]
+    )
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Detalhes do Livro</Text>
+    <SafeAreaView style={styles.container} >
+      <VStack>
+        <Text style={styles.title}>Informações do Livro</Text>
+        <InputText
+          placeholder="Título"
+          value={title}
+          onChangeText={setTitle}
+        />
+        <InputText
+          placeholder="Autor"
+          value={author}
+          onChangeText={setAuthor}
+        />
+      </VStack>
+      <HStack justifyContent={"space-between"} w={"100%"}>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Título"
-        value={title}
-        onChangeText={setTitle}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Autor"
-        value={author}
-        onChangeText={setAuthor}
-      />
-
-      <Button title="Salvar Alterações" onPress={handleUpdate} />
+        <Button w={"40%"} onPress={handleUpdate} colorScheme="blue" >
+          Atualizar
+        </Button>
+        <Button w={"40%"} colorScheme="danger" onPress={handleDelete}>
+          Deletar
+        </Button>
+      </HStack>
 
       <View style={{ height: 16 }} />
-      <Text style={{ marginTop: 20 }}>Reservar para:</Text>
+      <Text style={{ marginTop: 20 }}>Reservado para:</Text>
       <Picker
         selectedValue={selectedUser}
         onValueChange={(value) => setSelectedUser(value)}
@@ -94,16 +119,18 @@ export default function BookDetails() {
 
 
       <Button
-        title="Confirmar Reserva"
         onPress={handleReservation}
-        color="green"
-      />
+        colorScheme="green"
+      >
+        <Text>Confirmar Reserva</Text>
+      </Button>
+
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, flex: 1, justifyContent: 'center', marginTop: 22 },
+  container: { padding: 20, flex: 1, justifyContent: 'center', marginTop: 22, backgroundColor: 'white' },
   title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
   input: {
     borderWidth: 1, borderColor: '#ccc', borderRadius: 8,

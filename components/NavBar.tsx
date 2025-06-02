@@ -13,6 +13,7 @@ export function NavBar() {
 
   const tabs = [
     { name: "Livros", route: "/", icon: "book" },
+    { name: "Usuários", route: "/list", icon: "person" },
     { name: "Cadastrar Livro", route: "book", icon: "add-circle" },
     { name: "Cadastrar Usuário", route: "user", icon: "person-add" },
   ]

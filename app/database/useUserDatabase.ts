@@ -44,6 +44,28 @@ export function useUserDatabase() {
     }
   }
 
+  async function listUsersWithBooksByName(name: string) {
+    try {
+      const query = `
+        SELECT users.*, COUNT(books.id) as book_count
+        FROM users
+        LEFT JOIN books ON books.user_id = users.id
+        WHERE users.name LIKE ?
+        GROUP BY users.id
+      `
+
+      const response = await database.getAllAsync<any>(query, [`%${name}%`])
+
+      return response.map(user => ({
+        ...user,
+        book_count: Number(user.book_count)
+      }))
+    } catch (error) {
+      throw error
+    }
+  }
+
+
   async function update(data: User) {
     const statement = await database.prepareAsync(
       "UPDATE users SET name = $name, email = $email WHERE id = $id"
@@ -61,6 +83,29 @@ export function useUserDatabase() {
       await statement.finalizeAsync()
     }
   }
+
+  async function deleteUserAndFreeBooks(userId: number) {
+    const transaction = await database.prepareAsync("BEGIN TRANSACTION")
+    try {
+      // Liberar os livros
+      await database.execAsync(
+        "UPDATE books SET status = 'available', user_id = NULL WHERE user_id = " + userId
+      )
+
+      // Deletar usuário
+      await database.execAsync(
+        "DELETE FROM users WHERE id = " + userId
+      )
+
+      await database.execAsync("COMMIT")
+    } catch (error) {
+      await database.execAsync("ROLLBACK")
+      throw error
+    } finally {
+      await transaction.finalizeAsync()
+    }
+  }
+
 
   async function remove(id: number) {
     try {
@@ -96,5 +141,5 @@ export function useUserDatabase() {
     }
   }
 
-  return { create, searchByName, update, remove, show, list }
+  return { create, searchByName, update, remove, show, list, listUsersWithBooksByName, deleteUserAndFreeBooks }
 }
