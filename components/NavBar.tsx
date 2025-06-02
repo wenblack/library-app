@@ -5,18 +5,78 @@ import { useRouter, useSegments } from "expo-router"
 import { Box, HStack, Icon, Pressable, Text } from "native-base"
 import { Platform } from "react-native"
 
-export function NavBar() {
+interface Tab {
+  isHome?: boolean
+}
+export function NavBar({ isHome }: Tab) {
   const router = useRouter()
   const segments = useSegments()
 
-  const activeSegment = segments[segments.length - 1]
+  let activeSegment = segments[segments.length - 1] // Pega o último segmento da rota atual
 
   const tabs = [
     { name: "Livros", route: "/", icon: "book" },
     { name: "Usuários", route: "/list", icon: "person" },
-    { name: "Cadastrar Livro", route: "book", icon: "add-circle" },
-    { name: "Cadastrar Usuário", route: "user", icon: "person-add" },
   ]
+  if (isHome) {
+    return (
+      <Box py={4} borderTopWidth={'1'} borderColor={"gray.200"} bg={"white"}  >
+        <HStack safeAreaBottom={Platform.OS === "android" ? 10 : 4}>
+
+          <Pressable
+            key={'book'}
+            onPress={() => router.push('/')}
+            flex={1}
+          >
+            <Box alignItems="center">
+              <Icon
+                as={Ionicons}
+                name={"book"}
+                size="md"
+                color={
+                  "primary.500"
+                }
+              />
+              <Text
+                fontSize="xs"
+                color={
+                  "primary.500"
+                }
+              >
+                {"Livros"}
+              </Text>
+            </Box>
+          </Pressable>
+          <Pressable
+            key={"person"}
+            onPress={() => router.push("/list")}
+            flex={1}
+          >
+            <Box alignItems="center">
+              <Icon
+                as={Ionicons}
+                name={"person"}
+                size="md"
+                color={
+                  "gray.400"
+                }
+              />
+              <Text
+                fontSize="xs"
+                color={
+                  "gray.400"
+                }
+              >
+                {"Usuários"}
+              </Text>
+            </Box>
+          </Pressable>
+        </HStack>
+      </Box >
+    )
+
+
+  }
 
   return (
     <Box py={4} borderTopWidth={'1'} borderColor={"gray.200"} bg={"white"}  >
