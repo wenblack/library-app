@@ -135,7 +135,7 @@ export default function Home() {
           </TouchableOpacity>
         )}
       />
-      <NavBar />
+      <NavBar isHome />
     </VStack>
   )
 }

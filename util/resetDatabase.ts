@@ -1,8 +1,7 @@
-// utils/resetDatabase.ts
 import * as FileSystem from 'expo-file-system'
 
 export async function resetDatabase() {
-  const dbPath = `${FileSystem.documentDirectory}SQLite/your-database-name.db`
+  const dbPath = `${FileSystem.documentDirectory}SQLite/myDatabase.db`
 
   const exists = await FileSystem.getInfoAsync(dbPath)
   if (exists.exists) {
