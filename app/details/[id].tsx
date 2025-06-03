@@ -1,10 +1,10 @@
 import { InputText } from '@/components/InputText'
+import { NavBar } from '@/components/NavBar'
 import { Picker } from '@react-native-picker/picker'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { Button, HStack, VStack } from 'native-base'
 import { useEffect, useState } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { Book, BookStatus, useBookDatabase } from '../../hooks/useBookDatabase'
 import { User, useUserDatabase } from '../../hooks/useUserDatabase'
 
@@ -80,57 +80,59 @@ export default function BookDetails() {
   }
 
   return (
-    <SafeAreaView style={styles.container} >
-      <VStack>
-        <Text style={styles.title}>Informações do Livro</Text>
-        <InputText
-          placeholder="Título"
-          value={title}
-          onChangeText={setTitle}
-        />
-        <InputText
-          placeholder="Autor"
-          value={author}
-          onChangeText={setAuthor}
-        />
+    <>
+      <VStack style={styles.container} >
+        <VStack >
+          <Text style={styles.title}>Informações do Livro</Text>
+          <InputText
+            placeholder="Título"
+            value={title}
+            onChangeText={setTitle}
+          />
+          <InputText
+            placeholder="Autor"
+            value={author}
+            onChangeText={setAuthor}
+          />
+        </VStack>
+        <HStack justifyContent={"space-between"} w={"100%"}>
+
+          <Button w={"40%"} onPress={handleUpdate} colorScheme="blue" >
+            Atualizar
+          </Button>
+          <Button w={"40%"} colorScheme="danger" onPress={handleDelete}>
+            Deletar
+          </Button>
+        </HStack>
+
+        <View style={{ height: 16 }} />
+        <Text style={{ marginTop: 20 }}>Reservado para:</Text>
+        <Picker
+          selectedValue={selectedUser}
+          onValueChange={(value) => setSelectedUser(value)}
+          style={{ backgroundColor: '#eee', marginVertical: 10 }}
+        >
+          <Picker.Item label="Nenhum usuário" value={null} />
+          {users.map((user) => (
+            <Picker.Item key={user.id} label={user.name} value={user.id} />
+          ))}
+        </Picker>
+
+
+        <Button
+          onPress={handleReservation}
+          colorScheme="green"
+        >
+          <Text>Confirmar Reserva</Text>
+        </Button>
       </VStack>
-      <HStack justifyContent={"space-between"} w={"100%"}>
-
-        <Button w={"40%"} onPress={handleUpdate} colorScheme="blue" >
-          Atualizar
-        </Button>
-        <Button w={"40%"} colorScheme="danger" onPress={handleDelete}>
-          Deletar
-        </Button>
-      </HStack>
-
-      <View style={{ height: 16 }} />
-      <Text style={{ marginTop: 20 }}>Reservado para:</Text>
-      <Picker
-        selectedValue={selectedUser}
-        onValueChange={(value) => setSelectedUser(value)}
-        style={{ backgroundColor: '#eee', marginVertical: 10 }}
-      >
-        <Picker.Item label="Nenhum usuário" value={null} />
-        {users.map((user) => (
-          <Picker.Item key={user.id} label={user.name} value={user.id} />
-        ))}
-      </Picker>
-
-
-      <Button
-        onPress={handleReservation}
-        colorScheme="green"
-      >
-        <Text>Confirmar Reserva</Text>
-      </Button>
-
-    </SafeAreaView>
+      <NavBar />
+    </>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, flex: 1, justifyContent: 'center', marginTop: 22, backgroundColor: 'white' },
+  container: { padding: 20, flex: 1, justifyContent: 'center', backgroundColor: 'white' },
   title: { fontSize: 20, fontWeight: 'bold', marginBottom: 20 },
   input: {
     borderWidth: 1, borderColor: '#ccc', borderRadius: 8,

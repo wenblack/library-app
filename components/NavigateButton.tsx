@@ -1,17 +1,18 @@
 import { Ionicons } from '@expo/vector-icons'
-import { Button, Icon } from 'native-base'
+import { Button, HStack, Icon } from 'native-base'
 
 interface NavigateButtonProps {
   onPress: () => void
+  name: string
 }
 
-export function NavigateButton({ onPress }: NavigateButtonProps) {
+export function NavigateButton({ onPress, name }: NavigateButtonProps) {
   return (
     <Button
       onPress={onPress}
       position="absolute"
-      bottom={80}
-      right={20}
+      bottom={'15%'}
+      right={"2%"}
       borderRadius="full"
       width={16}
       height={16}
@@ -20,7 +21,9 @@ export function NavigateButton({ onPress }: NavigateButtonProps) {
       bg="primary.500"
       shadow={2}
     >
-      <Icon as={Ionicons} name="add" size="sm" color="white" />
+      <HStack color="white" flex={'row'} alignItems={"center"} justifyContent={'center'} fontSize="xl" >
+        <Icon as={Ionicons} name={name} size="xl" color="white" />
+      </HStack>
     </Button>
   )
 }

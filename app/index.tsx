@@ -1,6 +1,7 @@
 import { NavBar } from "@/components/NavBar"
+import { NavigateButton } from "@/components/NavigateButton"
 import { Ionicons } from "@expo/vector-icons"
-import { router } from "expo-router"
+import { useRouter } from "expo-router"
 import { Button, Divider, HStack, Text, VStack } from "native-base"
 import { useEffect, useState } from "react"
 import {
@@ -9,6 +10,7 @@ import {
   TouchableOpacity
 } from "react-native"
 import { BookWithUser, useBookDatabase } from "../hooks/useBookDatabase"
+
 
 export default function Home() {
   const { listWithUser, searchByTitle } = useBookDatabase()
@@ -27,6 +29,7 @@ export default function Home() {
     setBooks(results)
   }
 
+  const router = useRouter()
   useEffect(() => {
     async function loadBooks() {
       try {
@@ -135,6 +138,7 @@ export default function Home() {
           </TouchableOpacity>
         )}
       />
+      <NavigateButton name="add" onPress={() => router.push("/add/book")} />
       <NavBar isHome />
     </VStack>
   )

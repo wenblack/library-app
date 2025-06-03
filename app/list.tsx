@@ -1,5 +1,7 @@
 import { NavBar } from "@/components/NavBar"
+import { NavigateButton } from "@/components/NavigateButton"
 import { Ionicons } from "@expo/vector-icons"
+import { router } from "expo-router"
 import { Button, Divider, HStack, Text, VStack } from "native-base"
 import { useEffect, useState } from "react"
 import { Alert, FlatList, TextInput } from "react-native"
@@ -167,6 +169,7 @@ export default function UsersList() {
             </VStack>
           )}
         />
+        <NavigateButton name="person-add" onPress={() => router.push("/add/user")} />
         <NavBar />
       </VStack>
 
