@@ -95,14 +95,21 @@ export default function UsersList() {
             </Button>
           </HStack>
 
-          <HStack space={2} mb={4} pt={2} >
-            <Button onPress={() => setFilter("all")} variant={filter === "all" ? "solid" : "outline"}>
+          <HStack justifyContent={"space-between"} alignItems={"center"} mb={4} pt={2} >
+            <Button px={6}
+              fontWeight={filter === "all" ? "bold" : "semibold"}
+              rounded={"full"} onPress={() => setFilter("all")} variant={filter === "all" ? "solid" : "outline"}>
               Todos
+
             </Button>
-            <Button onPress={() => setFilter("with_books")} variant={filter === "with_books" ? "solid" : "outline"}>
+            <Button px={6}
+              fontWeight={filter === "with_books" ? "bold" : "semibold"}
+              rounded={"full"} onPress={() => setFilter("with_books")} variant={filter === "with_books" ? "solid" : "outline"}>
               Com Livro
             </Button>
-            <Button onPress={() => setFilter("without_books")} variant={filter === "without_books" ? "solid" : "outline"}>
+            <Button px={6}
+              fontWeight={filter === "without_books" ? "bold" : "semibold"}
+              rounded={"full"} onPress={() => setFilter("without_books")} variant={filter === "without_books" ? "solid" : "outline"}>
               Sem Livro
             </Button>
           </HStack>
