@@ -5,8 +5,8 @@ import { Button, HStack, VStack } from 'native-base'
 import { useEffect, useState } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Book, BookStatus, useBookDatabase } from '../database/useBookDatabase'
-import { User, useUserDatabase } from '../database/useUserDatabase'
+import { Book, BookStatus, useBookDatabase } from '../../hooks/useBookDatabase'
+import { User, useUserDatabase } from '../../hooks/useUserDatabase'
 
 export default function BookDetails() {
   const [users, setUsers] = useState<User[]>([])

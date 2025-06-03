@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons"
 import { Button, Divider, HStack, Text, VStack } from "native-base"
 import { useEffect, useState } from "react"
 import { Alert, FlatList, TextInput } from "react-native"
-import { useUserDatabase } from "./database/useUserDatabase"
+import { useUserDatabase } from "../hooks/useUserDatabase"
 
 
 

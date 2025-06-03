@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native"
-import { BookWithUser, useBookDatabase } from "./database/useBookDatabase"
+import { BookWithUser, useBookDatabase } from "../hooks/useBookDatabase"
 
 export default function Home() {
   const { listWithUser, searchByTitle } = useBookDatabase()

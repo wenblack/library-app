@@ -3,7 +3,7 @@ import { NavBar } from '@/components/NavBar'
 import { Button, KeyboardAvoidingView, Text, VStack } from 'native-base'
 import { useState } from 'react'
 import { Alert } from 'react-native'
-import { useBookDatabase } from '../database/useBookDatabase'
+import { useBookDatabase } from '../../hooks/useBookDatabase'
 
 export default function BookForm() {
   const { create } = useBookDatabase()

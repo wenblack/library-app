@@ -1,7 +1,7 @@
 import { Slot } from "expo-router"
 import { SQLiteProvider } from "expo-sqlite"
 import { NativeBaseProvider, StatusBar, useColorMode } from "native-base"
-import { initializeDatabase } from "./database/initializeDatabase"
+import { initializeDatabase } from "../database/initializeDatabase"
 export default function Layout() {
 
   //resetDatabase() for testing purposes

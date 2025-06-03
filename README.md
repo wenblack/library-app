@@ -58,12 +58,13 @@ npx expo start
 ## 📁 Estrutura
 
 ```bash
-app/
+📂app/                                # Páginas do aplicativo
 ├── add/                              # Cadastro de livros e usuários
-├── database/                         # Inicialização do banco de dados e Hooks
 ├── details/                          # Edição e detalhes de livros
 ├── index.tsx                         # Página inicial com busca e listagem
 ├── list.tsx                          # Listagem de livros
-components/                           # Componentes reutilizáveis(ex: Navbar, Input e etc.)
-util/                                 # Funções utilitárias(Reset de banco de dados)
+📁components                          # Componentes reutilizáveis(ex: Navbar, Input e etc.)
+📁database                            # Inicialização do banco de dados
+📁hooks                               # Hooks personalizados
+📁util                                # Funções utilitárias(Reset de banco de dados)
 ```
