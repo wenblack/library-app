@@ -12,7 +12,7 @@ export function NavBar({ isHome }: Tab) {
   const router = useRouter()
   const segments = useSegments()
 
-  let activeSegment = segments[segments.length - 1] // Pega o último segmento da rota atual
+  let activeSegment = segments[segments.length - 1]
 
   const tabs = [
     { name: "Livros", route: "/", icon: "book" },

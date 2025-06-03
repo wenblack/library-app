@@ -48,7 +48,7 @@ export default function UsersList() {
   const handleUpdate = async (userId: number) => {
     await update({
       id: userId, name: editedName,
-      email: userId.toString() // Placeholder email
+      email: userId.toString()
     })
     setEditingUserId(null)
     loadUsers()

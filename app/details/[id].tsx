@@ -29,7 +29,7 @@ export default function BookDetails() {
         setAuthor(data.author)
         setSelectedUser(data.user_id ?? null)
       }
-      const allUsers = await list() // carrega todos
+      const allUsers = await list()
       setUsers(allUsers)
     }
 
@@ -72,7 +72,7 @@ export default function BookDetails() {
           style: "destructive",
           onPress: async () => {
             await remove(Number(id))
-            router.replace("/") // volta para home
+            router.replace("/")
           },
         },
       ]
