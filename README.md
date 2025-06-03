@@ -59,12 +59,11 @@ npx expo start
 
 ```bash
 app/
-├── (tabs)/               # Navegação por abas
-├── index.tsx             # Página inicial com busca e listagem
-├── livro/[id].tsx        # Detalhes e reserva
-├── livros/novo.tsx       # Cadastro de livros
-├── usuarios/novo.tsx     # Cadastro de usuários
-database/
-├── index.ts              # Inicialização do banco
-├── hooks/                # Lógica SQLite (livros e usuários)
+├── add/                              # Cadastro de livros e usuários
+├── database/                         # Inicialização do banco de dados e Hooks
+├── details/                          # Edição e detalhes de livros
+├── index.tsx                         # Página inicial com busca e listagem
+├── list.tsx                          # Listagem de livros
+components/                           # Componentes reutilizáveis(ex: Navbar, Input e etc.)
+util/                                 # Funções utilitárias(Reset de banco de dados)
 ```
